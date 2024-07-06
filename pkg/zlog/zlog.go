@@ -2,6 +2,7 @@ package zlog
 
 import (
 	"fmt"
+	"log/slog"
 	"os"
 	"runtime"
 
@@ -18,12 +19,12 @@ func Fatal(errR error) {
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	go func() {
 		file, err := os.OpenFile(
-			"./kop.fatal.log",
+			"./log/fatal.log",
 			os.O_APPEND|os.O_CREATE|os.O_WRONLY,
 			0664,
 		)
 		if err != nil {
-			panic(err)
+			slog.Warn(err.Error(), err)
 		}
 		defer file.Close()
 		logger := zerolog.New(file).With().Timestamp().Logger()
@@ -37,12 +38,12 @@ func Error(errR error) {
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	go func() {
 		file, err := os.OpenFile(
-			"./kop.error.log",
+			"./log/error.log",
 			os.O_APPEND|os.O_CREATE|os.O_WRONLY,
 			0664,
 		)
 		if err != nil {
-			panic(err)
+			slog.Warn(err.Error(), err)
 		}
 		defer file.Close()
 		logger := zerolog.New(file).With().Timestamp().Logger()
@@ -56,12 +57,12 @@ func Warning(msg string) {
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	go func() {
 		file, err := os.OpenFile(
-			"./kop.warn.log",
+			"./log/warn.log",
 			os.O_APPEND|os.O_CREATE|os.O_WRONLY,
 			0664,
 		)
 		if err != nil {
-			panic(err)
+			slog.Warn(err.Error(), err)
 		}
 		defer file.Close()
 		logger := zerolog.New(file).With().Timestamp().Logger()
@@ -75,12 +76,12 @@ func Info(data interface{}, msg string) {
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	go func() {
 		file, err := os.OpenFile(
-			"./kop.info.log",
+			"./log/info.log",
 			os.O_APPEND|os.O_CREATE|os.O_WRONLY,
 			0664,
 		)
 		if err != nil {
-			panic(err)
+			slog.Warn(err.Error(), err)
 		}
 		defer file.Close()
 		logger := zerolog.New(file).With().Timestamp().Logger()

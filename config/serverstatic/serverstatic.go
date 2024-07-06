@@ -2,7 +2,7 @@ package serverstatic
 
 import (
 	"errors"
-	"mereetmoi/pkg/zlog"
+	"gomodule/pkg/zlog"
 	"net/http"
 	"os"
 	"path/filepath"

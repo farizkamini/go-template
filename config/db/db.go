@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"mereetmoi/pkg/vip"
-	"mereetmoi/pkg/zlog"
+	"gomodule/pkg/vip"
+	"gomodule/pkg/zlog"
 	"strconv"
 	"time"
 
@@ -124,7 +124,7 @@ func (p *PgConfig) Conn() (*pgxpool.Pool, error) {
 	}
 	_, errConnect := pool.Exec(ctx, ";")
 	if errConnect != nil {
-		zlog.Error(err)
+		zlog.Error(fmt.Errorf("cannot connect db: %v", err))
 		newErr = errConnect
 	}
 	return pool, newErr

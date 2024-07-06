@@ -4,8 +4,6 @@ RUN = ./bin/main
 .PHONY: build run gorun vendor  
 init: dep dir	
 build:
-	go mod tidy
-	go mod download
 	$(BUILD)
 run:
 	$(RUN)

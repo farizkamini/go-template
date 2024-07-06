@@ -2,11 +2,12 @@ package main
 
 import (
 	"context"
-	"mereetmoi/config/db"
-	"mereetmoi/config/server"
-	serverstatic "mereetmoi/config/serverstatic"
-	"mereetmoi/pkg/vip"
-	"mereetmoi/pkg/zlog"
+	"gomodule/config/db"
+	"gomodule/config/server"
+	"gomodule/config/serverstatic"
+	"gomodule/pkg/vip"
+	"gomodule/pkg/zlog"
+
 	"net/http"
 	"strconv"
 )

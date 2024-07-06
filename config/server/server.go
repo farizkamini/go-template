@@ -2,9 +2,9 @@ package server
 
 import (
 	"fmt"
-	"mereetmoi/internal/routes"
-	"mereetmoi/pkg/vip"
-	"mereetmoi/pkg/zlog"
+	"gomodule/internal/routes"
+	"gomodule/pkg/vip"
+	"gomodule/pkg/zlog"
 	"net/http"
 
 	"strconv"

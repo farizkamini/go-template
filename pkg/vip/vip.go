@@ -39,6 +39,10 @@ type (
 		PasetExp      int
 		ApiKey        string
 		XTokenKey     string
+		EmailPassword string
+		EmailPort     string
+		EmailHost     string
+		EmailSender   string
 	}
 )
 
@@ -86,6 +90,10 @@ func (v *VipConf) App() (*VipRes, error) {
 		PasetExp:      config.GetInt(C_App + "paseto_exp"),
 		ApiKey:        config.GetString(C_App + "api_key"),
 		XTokenKey:     config.GetString(C_App + "x_token_key"),
+		EmailPassword: config.GetString(C_App + "email_password"),
+		EmailHost:     config.GetString(C_App + "email_host"),
+		EmailPort:     config.GetString(C_App + "email_port"),
+		EmailSender:   config.GetString(C_App + "email_sender"),
 	}
 	return res, nil
 }
