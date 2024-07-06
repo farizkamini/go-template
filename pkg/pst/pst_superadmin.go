@@ -15,24 +15,21 @@ const (
 )
 
 type Paseto struct {
-	PublicKey               *paseto.V4AsymmetricPublicKey
-	JTI                     *uuid.UUID
-	Signed, Email, Whatsapp *string
+	PublicKey *paseto.V4AsymmetricPublicKey
+	JTI       *uuid.UUID
+	Signed    *string
 }
-type SuperAdminPayload struct {
-	JTI                                uuid.UUID
-	PublicKey, Signed, Email, Whatsapp string
-	Status                             string
+type Payload struct {
+	JTI               uuid.UUID
+	PublicKey, Signed string
 }
 
 func New() *Paseto {
 	return &Paseto{}
 }
 
-func (p *Paseto) SetSuperAdminToken(payload SuperAdminPayload) (*Paseto, error) {
+func (p *Paseto) SetToken(payload Payload) (*Paseto, error) {
 	p.JTI = &payload.JTI
-	p.Email = &payload.Email
-	p.Whatsapp = &payload.Whatsapp
 	token := paseto.NewToken()
 	token.SetIssuedAt(time.Now())
 	token.SetNotBefore(time.Now())
@@ -40,14 +37,6 @@ func (p *Paseto) SetSuperAdminToken(payload SuperAdminPayload) (*Paseto, error) 
 	err := token.Set(JTI_KEY, p.JTI)
 	if err != nil {
 		return nil, errors.New("error jti id not set")
-	}
-	err = token.Set(EMAIL, p.Email)
-	if err != nil {
-		return nil, errors.New("error jti e not set")
-	}
-	err = token.Set(WHATSAPP, p.Whatsapp)
-	if err != nil {
-		return nil, errors.New("error jti w not set")
 	}
 
 	secretKey := paseto.NewV4AsymmetricSecretKey()
@@ -59,7 +48,7 @@ func (p *Paseto) SetSuperAdminToken(payload SuperAdminPayload) (*Paseto, error) 
 	}, nil
 }
 
-func (p *Paseto) ClaimSuperAdmin(payload SuperAdminPayload) error {
+func (p *Paseto) Claim(payload Payload) error {
 	parser := paseto.NewParser()
 	parser.AddRule(paseto.IdentifiedBy(payload.JTI.String()))
 	parser.AddRule(paseto.NotExpired())
@@ -74,11 +63,8 @@ func (p *Paseto) ClaimSuperAdmin(payload SuperAdminPayload) error {
 		return errors.New("token not match")
 	}
 	mapVal := parsedToken.Claims()
-	if payload.Email != mapVal[EMAIL].(string) {
-		return errors.New("email invalid")
-	}
-	if payload.Whatsapp != mapVal[WHATSAPP].(string) {
-		return errors.New("whatsapp invalid")
+	if string(payload.JTI.String()) != mapVal[JTI_KEY].(string) {
+		return errors.New("jti invalid")
 	}
 
 	return nil

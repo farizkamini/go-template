@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"gomodule/config/db"
 	"gomodule/config/server"
 	"gomodule/config/serverstatic"
@@ -20,7 +21,7 @@ func main() {
 		return
 	}
 	go func() {
-		zlog.Info("asset run", "asset run")
+		zlog.Info(fmt.Sprintf("port asset: %d", vipp.AppPortAsset), "server asset run")
 		err := http.ListenAndServe(":"+strconv.Itoa(vipp.AppPortAsset), serverstatic.Master())
 		if err != nil {
 			zlog.Fatal(err)
