@@ -1,0 +1,24 @@
+app:
+  name: "name"
+  port: 8000
+  port_csv: 8001
+  host: "0.0.0.0"
+  status: "development"
+  api_key: "foo"
+  paseto_secret: "foo"
+  paseto_exp: 60
+  x_token_key: "foo"
+  email_host: "email.host"
+  email_port: ":587"
+  email_sender: "foo@bar.com"
+  email_password: "xxx xxx"
+
+database:
+  name: "db_name"
+  password: ""
+  username: "user"
+  port: 5432
+  host: "localhost"
+  max_con: 100
+  max_lifetime: 60
+  schema: "public"
