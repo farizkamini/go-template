@@ -8,15 +8,8 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-const (
-	randChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-)
-
 func Random() (password string, hashedpassword string, err error) {
-	randPassword, errRandPass := randCharacter(10)
-	if errRandPass != nil {
-		return "", "", errRandPass
-	}
+	randPassword := generateRandomString(10)
 	hashPass, errHashPass := HashPassword(randPassword)
 	if errHashPass != nil {
 		return "", "", errHashPass
@@ -37,18 +30,17 @@ func ComparePassword(userPassword []byte, dtoPassword string) error {
 	return err
 }
 
-func randCharacter(length int) (string, error) {
-	buffer := make([]byte, length)
-	_, err := rand.Read(buffer)
-	if err != nil {
-		return "", err
+func generateRandomString(length int) string {
+	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	source := rand.NewSource(time.Now().UnixNano())
+	seededRand := rand.New(source)
+
+	result := make([]byte, length)
+	for i := range result {
+		result[i] = charset[seededRand.Intn(len(charset))]
 	}
 
-	charsetLength := len(randChar)
-	for i := 0; i < length; i++ {
-		buffer[i] = randChar[int(buffer[i])%charsetLength]
-	}
-	return string(buffer), nil
+	return string(result)
 }
 
 func RandUlid() string {
